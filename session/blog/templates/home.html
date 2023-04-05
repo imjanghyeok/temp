@@ -1,4 +1,9 @@
 <h1>LIKELION 11 Blog Project</h1>
+<form method="POST" action="{% url 'search' %}">
+    {% csrf_token %}
+    <input type="search" placeholder="검색하기" name="searched">
+    <button type="submit"> Search </button>
+</form>
 <a href="{% url 'new' %}">새 글 작성하기</a>
 <div>
     {% for blog in blogs %}
@@ -9,3 +14,6 @@
     </a>
     {% endfor %}
 </div>
+<style>
+    
+</style>

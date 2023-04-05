@@ -14,14 +14,6 @@ def detail(request, blog_id):
 def new(request):
     return render(request,'new.html')
 
-# def create(request):
-#     new_blog = Blog()
-#     new_blog.title = request.POST['title']
-#     new_blog.content = request.POST['content']
-#     new_blog.save()
-#     return redirect('detail', new_blog.id)
-#     return render(request, 'detail.html', {'blog':new_blog})
-
 def create(request):
     form = BlogForm(request.POST)
 
@@ -37,18 +29,11 @@ def edit(request, blog_id):
     return render(request, 'edit.html', {'edit_blog':edit_blog})
 
 
-# def update(request, blog_id):
-#     old_blog = get_object_or_404(Blog, pk=blog_id)
-#     old_blog.title = request.POST["title"]
-#     old_blog.content = request.POST["content"]
-#     old_blog.save()
-#     return redirect('detail', old_blog.id)
-
 def update(request, blog_id):
     old_blog = get_object_or_404(Blog, pk=blog_id)
     form = BlogForm(request.POST, instance=old_blog)
 
-    # 클라이언트가 유효한 값을 입력한 경우
+   
     if form.is_valid():
         new_blog = form.save(commit=False)
         new_blog.save()
@@ -62,5 +47,36 @@ def delete(request, blog_id):
     delete_blog.delete()
     return redirect('home')
 
+
+def declaration(request, blog_id):
+    blog = get_object_or_404(Blog, pk=blog_id)
+    return render(request,'declaration.html', {'blog':blog})
+
+def declare(request, blog_id):
+    declare_blog = get_object_or_404(Blog, pk=blog_id)
+    if request.method == 'POST':
+        declare_reason = request.POST.get('dcl')
+        declare_causes = ["씨발", "병신", "주민번호", "fuck"]
+        for cause in declare_causes:
+            print(cause)
+            declare_title = Blog.objects.filter(title__contains=cause)
+            declare_content = Blog.objects.filter(content__contains=cause)
+        return render(request,'warning.html', {'declare_blog':declare_blog}, {'declare_title':declare_title},{'declare_content':declare_content})
+    
+    else:
+        return redirect('home')
+    
+def search(request):
+    searched = request.POST.get('searched')
+    print(searched)
+    ss = request.POST['searched']
+    print(ss)
+    search_result = Blog.objects.filter(title__contains=searched)
+    print(search_result)
+    print(len(search_result))
+    if len(search_result) != 0:
+        return render(request, 'search.html', {'searched':searched, 'search_result':search_result})
+    else:
+         return render(request, 'search.html', {'searched':searched})
 
 

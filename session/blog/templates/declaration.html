@@ -1,0 +1,15 @@
+<h1>신고하기</h1>
+<form action="{%url 'declare' blog.id %}" method="POST">
+    {% csrf_token %}
+    신고제목 :
+    <select name="dcl" class="select">
+        <option disabled selected>내용선택</option>
+        <option value="curse">비속어</option>
+        <option value="pornography">음란물</option>
+        <option value="perinfo">개인정보 노출</option>
+    </select>
+    <input type="selectoption" name="decl_title" />
+    
+    <input type="submit" value="신고하기" />
+</form>
+<a href="{% url 'home' %}"> 홈으로 </a>

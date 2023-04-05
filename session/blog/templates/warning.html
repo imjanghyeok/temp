@@ -1,0 +1,9 @@
+<h1>신고가 접수되었습니다.</h1>
+<br/>
+<hr/>
+{% if declare_blog == %}
+<h2>{{blog.title}}</h2>
+<p>{{blog.content}}</p>
+<p>{{blog.created_at}}</p>
+
+<a href="{% url 'home' %}">홈</a>
